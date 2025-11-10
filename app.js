@@ -1,4 +1,4 @@
-// app.js (최종 수정 통합본 - Service Worker 등록 오류 해결)
+// app.js (최종 에러 해결 및 통합본)
 
 // ===================================
 // 1. Firebase 설정 및 초기화
@@ -87,43 +87,44 @@ function saveAlarmTime() {
 function requestPermission() {
     console.log('알림 권한 요청 중...');
     
-    // 1. Service Worker를 먼저 등록하고 등록 객체(registration)를 Promise로 받습니다.
-    // 🚨 B5CP 경로 사용
-    navigator.serviceWorker.register('/B5CP/firebase-messaging-sw.js') 
-        .then((registration) => {
+    // 1. Service Worker 등록 경로 지정 (B5CP)
+    const swRegistrationPromise = navigator.serviceWorker.register('/B5CP/firebase-messaging-sw.js');
+
+    // 2. 알림 권한 요청
+    Notification.requestPermission().then((permission) => {
+        if (permission !== 'granted') {
+            console.log('알림 권한 거부됨.');
+            alert('푸시 알림 기능을 사용하려면 알림 권한을 허용해야 합니다.');
+            return; 
+        }
+
+        console.log('알림 권한 승인됨.');
+
+        // 3. Service Worker가 등록되면 (Promise 해결) 토큰을 가져옵니다.
+        swRegistrationPromise.then((registration) => {
             console.log('Service Worker 등록 성공:', registration);
-            
-            // 2. 알림 권한을 요청하고 승인 여부를 확인합니다.
-            Notification.requestPermission().then((permission) => {
-                if (permission === 'granted') {
-                    console.log('알림 권한 승인됨.');
 
-                    // 3. Service Worker 객체(registration)를 Firebase에 전달하여 토큰을 가져옵니다.
-                    messaging.getToken({ 
-                        serviceWorkerRegistration: registration // Promise가 아닌 객체를 전달합니다.
-                    }).then((currentToken) => {
-                        if (currentToken) {
-                            console.log('FCM Device Token (주소):', currentToken);
-                            alert('알림 권한 승인 완료! 토큰(주소)이 콘솔에 표시되었습니다.');
-                        } else {
-                            console.log('등록 토큰 없음. 권한 승인 확인 필요.');
-                        }
-                    }).catch((err) => {
-                        console.error('FCM 토큰 가져오기 에러: ', err);
-                        alert('토큰 가져오기 실패: Firebase 콘솔 오류 확인');
-                    });
-
+            // 4. 등록 객체(registration)를 Firebase에 전달하여 토큰을 가져옵니다.
+            messaging.getToken({ 
+                serviceWorkerRegistration: registration 
+            }).then((currentToken) => {
+                if (currentToken) {
+                    console.log('FCM Device Token (주소):', currentToken);
+                    alert('알림 권한 승인 완료! 토큰(주소)이 콘솔에 표시되었습니다.');
                 } else {
-                    console.log('알림 권한 거부됨.');
-                    alert('푸시 알림 기능을 사용하려면 알림 권한을 허용해야 합니다.');
+                    console.error('등록 토큰 없음. FCM 설정 확인 필요.');
+                    alert('토큰 발급 실패: FCM 설정 확인');
                 }
+            }).catch((err) => {
+                console.error('FCM 토큰 가져오기 에러:', err);
+                alert('토큰 가져오기 실패. 콘솔 에러를 확인하세요.');
             });
-        })
-        .catch((err) => {
-            console.error('Service Worker 등록 에러:', err);
-            // Service Worker 등록 실패 시 아이폰 팝업은 절대 뜨지 않습니다.
-            alert('알림 기능을 초기화할 수 없습니다. (Service Worker 등록 실패)');
+
+        }).catch((err) => {
+            console.error('Service Worker 등록 실패:', err);
+            alert('Service Worker 등록 실패. 경로와 파일 확인 필요.');
         });
+    });
 }
 
 

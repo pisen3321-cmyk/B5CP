@@ -3,9 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>💖 200일 약속 (여자친구 이름) 💖</title>
+    <title>💖 200일 약속 (쥬영) 💖</title>
     <link rel="stylesheet" href="style.css"> 
 </head>
+<script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-messaging-compat.js"></script>
 <body>
     <header id="dday-section">
         <h1>우리가 사랑한 지</h1>
@@ -13,10 +15,16 @@
     </header>
 
     <section id="medication-section">
-        <h2>💊 약 복용 알림 설정</h2>
-        <p>매일 [시간]에 알림이 울려요.</p>
-        <button id="set-alarm-btn">알림 설정/수정하기</button>
-    </section>
+    <h2>💊 약 복용 알림 설정</h2>
+    <p>매일 정해진 시간에 알림을 받을 수 있어요.</p>
+
+    <div>
+        <label for="alarm-time">복용 시간 설정:</label>
+        <input type="time" id="alarm-time" value="09:00"> 
+    </div>
+    
+    <button id="set-alarm-btn">알림 설정/수정하기</button>
+    <p id="current-alarm-time">현재 설정 시간: 미설정</p> </section>
 
     <section id="plan-section">
         <h2>📅 우리의 중요 계획</h2>

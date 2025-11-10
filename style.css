@@ -1,0 +1,62 @@
+/* 기본 설정: 모든 요소의 여백을 초기화하고 글꼴을 설정합니다. */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 20px;
+    /* 💖 전체 배경을 핑크색으로 설정합니다. */
+    background-color: #f7e0e6; /* 부드러운 연핑크 */
+    color: #333; /* 글자색 */
+    text-align: center; /* 모든 내용을 중앙 정렬 */
+}
+
+/* 헤더 (D-day 섹션) 스타일 */
+#dday-section {
+    padding: 30px 0;
+    margin-bottom: 20px;
+    background-color: #f9d8e1; /* 조금 더 진한 핑크 */
+    border-radius: 15px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+#dday-count {
+    font-size: 48px;
+    font-weight: bold;
+    color: #e91e63; /* 핫핑크 강조색 */
+    margin-top: 10px;
+}
+
+/* 섹션 공통 스타일 */
+section {
+    background-color: white;
+    padding: 20px;
+    margin-bottom: 15px;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+/* 버튼 스타일 */
+button {
+    background-color: #ff69b4; /* 핫핑크 */
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s;
+}
+
+button:hover {
+    background-color: #e6007e; /* 마우스 올렸을 때 색상 변경 */
+}
+
+/* 📱 반응형 디자인: 아이폰 미니와 프로 사이즈 모두 맞추기 */
+/* 웹앱은 기본적으로 반응형으로 동작하지만, 작은 화면에 맞게 여백을 조정합니다. */
+@media (max-width: 600px) {
+    body {
+        padding: 10px;
+    }
+    #dday-count {
+        font-size: 40px;
+    }
+}

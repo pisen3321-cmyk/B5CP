@@ -1,8 +1,3 @@
-// app.js (최종 수정 통합본)
-
-// ===================================
-// 1. Firebase 설정 및 초기화
-// ===================================
 const firebaseConfig = {
     apiKey: "AIzaSyC7MX6QK67XFx2b24eF05qbDTbtAuhjpvE",
     authDomain: "b5cp-9ac43.firebaseapp.com",

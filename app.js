@@ -89,7 +89,7 @@ function requestPermission() {
 
             messaging.getToken({ 
                 // 🚨 핵심 수정! Service Worker 경로를 '/B5CP/'로 정확히 설정
-                serviceWorkerRegistration: navigator.serviceWorker.register('/B5CP/firebase-messaging-sw.js') 
+                serviceWorkerRegistration: navigator.serviceWorker.register('https://pisen3321-cmyk.github.io/B5CP/firebase-messaging-sw.js') 
             }).then((currentToken) => {
                 if (currentToken) {
                     console.log('FCM Device Token (주소):', currentToken);

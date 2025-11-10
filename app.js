@@ -20,10 +20,11 @@ const messaging = firebase.messaging();
 // 2. D-DAY 및 계획 기능
 // ===================================
 function calculateDDay() {
-    // ⚠️ 사귄 날짜를 여기에 정확히 입력해 주세요!
+    // ⚠️ 사귄 날짜를 여기에 정확히 입력해 주세요! (200일 기준: 2025년 5월 8일)
     const startDate = new Date('2025-05-08'); 
     const today = new Date();
     
+    // 날짜 차이 계산
     const timeDiff = today.getTime() - startDate.getTime();
     const days = Math.floor(timeDiff / (1000 * 3600 * 24)) + 1;
     
@@ -72,6 +73,7 @@ function saveAlarmTime() {
     const time = timeInput.value;
     
     if (time) {
+        // 시간 저장
         localStorage.setItem('medicationTime', time);
         displayCurrentTime(time);
         alert(`복용 시간이 ${time}으로 저장되었습니다. 이제 알림 권한을 요청합니다.`);
@@ -94,7 +96,8 @@ function requestPermission() {
             console.log('알림 권한 승인됨.');
 
             messaging.getToken({ 
-                serviceWorkerRegistration: navigator.serviceWorker.register('/B5CP/firebase-messaging-sw.js') 
+                // 🚨 핵심 수정! Service Worker 경로에 프로젝트 이름('/BSCP/')을 포함
+                serviceWorkerRegistration: navigator.serviceWorker.register('/BSCP/firebase-messaging-sw.js') 
             }).then((currentToken) => {
                 if (currentToken) {
                     console.log('FCM Device Token (주소):', currentToken);
@@ -118,7 +121,7 @@ function requestPermission() {
 // 5. 웹앱 시작 시 실행
 // ===================================
 
-// 알림 버튼 클릭 이벤트 연결 (saveAlarmTime을 실행)
+// 알림 버튼 클릭 이벤트 연결
 document.getElementById('set-alarm-btn').addEventListener('click', saveAlarmTime);
 
 // 웹앱이 로드되면 모든 기능을 초기화합니다.

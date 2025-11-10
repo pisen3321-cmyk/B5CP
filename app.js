@@ -94,7 +94,7 @@ function requestPermission() {
             console.log('알림 권한 승인됨.');
 
             messaging.getToken({ 
-                serviceWorkerRegistration: navigator.serviceWorker.register('firebase-messaging-sw.js') 
+                serviceWorkerRegistration: navigator.serviceWorker.register('/B5CP/firebase-messaging-sw.js') 
             }).then((currentToken) => {
                 if (currentToken) {
                     console.log('FCM Device Token (주소):', currentToken);

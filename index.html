@@ -1,40 +1,49 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>💖 200일 약속 (쥬영) 💖</title>
-    <link rel="stylesheet" href="style.css"> 
-    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-messaging-compat.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>💖 200일 약속 (쥬영) 💖</title>
+
+  <!-- PWA Manifest & iOS 지원 -->
+  <link rel="manifest" href="/manifest.json">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="200일 약속">
+  <link rel="apple-touch-icon" href="/images/pink_heart.png">
+
+  <!-- Firebase SDK -->
+  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-messaging-compat.js"></script>
+
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <header id="dday-section">
-        <h1>우리가 사랑한 지</h1>
-        <div id="dday-count">D+0</div>
-    </header>
+  <header id="dday-section">
+    <h1>우리가 사랑한 지</h1>
+    <div id="dday-count">D+0</div>
+  </header>
 
-    <section id="medication-section">
-        <h2>💊 약 복용 알림 설정</h2>
-        <p>매일 정해진 시간에 알림을 받을 수 있어요.</p>
+  <section id="medication-section">
+    <h2>💊 약 복용 알림 설정</h2>
+    <p>매일 정해진 시간에 알림을 받을 수 있어요.</p>
 
-        <div>
-            <label for="alarm-time">복용 시간 설정:</label>
-            <input type="time" id="alarm-time" value="09:00"> 
-        </div>
-        
-        <button id="set-alarm-btn">알림 설정/수정하기</button>
-        <p id="current-alarm-time">현재 설정 시간: 미설정</p> 
-    </section>
+    <div>
+      <label for="alarm-time">복용 시간 설정:</label>
+      <input type="time" id="alarm-time" value="09:00">
+    </div>
 
-    <section id="plan-section">
-        <h2>📅 우리의 중요 계획</h2>
-        <ul id="plan-list">
-            <li>[D-10] 200일 기념 데이트 계획</li>
-        </ul>
-        <button id="add-plan-btn">계획 추가하기</button>
-    </section>
+    <button id="set-alarm-btn">알림 설정/수정하기</button>
+    <p id="current-alarm-time">현재 설정 시간: 미설정</p>
+  </section>
 
-    <script src="app.js"></script>
+  <section id="plan-section">
+    <h2>📅 우리의 중요 계획</h2>
+    <ul id="plan-list">
+      <li>[D-10] 200일 기념 데이트 계획</li>
+    </ul>
+  </section>
+
+  <script src="app.js"></script>
 </body>
 </html>

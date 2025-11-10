@@ -1,0 +1,20 @@
+{
+  "name": "💖 200일 약속 (쥬영) 💖",
+  "short_name": "200일 약속",
+  "start_url": "/index.html",
+  "display": "standalone",
+  "background_color": "#f7e0e6",
+  "theme_color": "#ff69b4",
+  "icons": [
+    {
+      "src": "/images/pink_heart.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/images/pink_heart.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}

@@ -1,3 +1,10 @@
+// app.js (iPhone 대응 버전)
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import { getMessaging, getToken, onMessage } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-messaging.js";
+
+// ==========================
+// Firebase 설정
+// ==========================
 const firebaseConfig = {
   apiKey: "AIzaSyC7MX6QK67XFx2b24eF05qbDTbtAuhjpvE",
   authDomain: "b5cp-9ac43.firebaseapp.com",
@@ -8,8 +15,8 @@ const firebaseConfig = {
   measurementId: "G-MPT9PFK71N"
 };
 
-firebase.initializeApp(firebaseConfig);
-const messaging = firebase.messaging();
+const app = initializeApp(firebaseConfig);
+const messaging = getMessaging(app);
 
 // ==========================
 // D-Day 및 계획 표시
@@ -37,29 +44,43 @@ function displayPlans() {
 }
 
 // ==========================
-// 알림 시간 저장 및 권한 요청
+// 알림 권한 요청 및 토큰 발급
 // ==========================
 async function requestPermission() {
   console.log('🔔 알림 권한 요청 중...');
   const permission = await Notification.requestPermission();
+
   if (permission !== 'granted') {
     alert('알림 권한이 거부되었습니다.');
     return;
   }
 
   console.log('✅ 알림 권한 승인됨.');
+
+  // Service Worker 등록
   const registration = await navigator.serviceWorker.register('/firebase-messaging-sw.js');
   console.log('✅ Service Worker 등록 성공:', registration);
 
-  const currentToken = await messaging.getToken({ serviceWorkerRegistration: registration });
-  if (currentToken) {
-    console.log('📨 FCM Token:', currentToken);
-    alert('알림 권한 설정 완료! (콘솔에서 토큰 확인 가능)');
-  } else {
-    console.error('❌ 토큰을 가져올 수 없습니다.');
+  try {
+    const currentToken = await getToken(messaging, {
+      vapidKey: "BGd5NcfPrwLfwWPXKvAICHzMtbgSQiPF3hiYKM3HPLBds0m4zKoJRYhDgWUw8kUBgsWyhcT1dsiUGaG2N1YK4io", // ⚠️ 여기에 VAPID 키 넣기
+      serviceWorkerRegistration: registration
+    });
+
+    if (currentToken) {
+      console.log('📨 FCM Token:', currentToken);
+      alert('푸시 알림 설정 완료! (콘솔에서 토큰 확인 가능)');
+    } else {
+      console.error('❌ 토큰을 가져올 수 없습니다.');
+    }
+  } catch (err) {
+    console.error('🚫 토큰 가져오기 실패:', err);
   }
 }
 
+// ==========================
+// 알림 시간 저장
+// ==========================
 function saveAlarmTime() {
   const time = document.getElementById('alarm-time').value;
   if (!time) return alert('시간을 먼저 선택해주세요.');
@@ -81,3 +102,11 @@ window.onload = () => {
   }
   document.getElementById('set-alarm-btn').addEventListener('click', saveAlarmTime);
 };
+
+// ==========================
+// 앱이 켜져 있을 때 수신되는 알림 처리
+// ==========================
+onMessage(messaging, (payload) => {
+  console.log("📩 메시지 수신됨:", payload);
+  alert(payload.notification?.title || "새 알림이 도착했습니다!");
+});
